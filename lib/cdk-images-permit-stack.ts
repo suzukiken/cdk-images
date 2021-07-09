@@ -8,6 +8,8 @@ export class CdkImagesPermitStack extends cdk.Stack {
 
     const auth_iamrolearn = cdk.Fn.importValue(this.node.tryGetContext('cognito_idpool_auth_iamrolearn_exportname'))
     const auth_iamrole = iam.Role.fromRoleArn(this, 'AuthRole', auth_iamrolearn)
+    const unauth_iamrolearn = cdk.Fn.importValue(this.node.tryGetContext('cognito_idpool_unauth_iamrolearn_exportname'))
+    const unauth_iamrole = iam.Role.fromRoleArn(this, 'UnauthRole', unauth_iamrolearn)
     const bucketname = cdk.Fn.importValue(this.node.tryGetContext('s3bucketname_exportname'))
     const bucket = s3.Bucket.fromBucketName(this, 'Bucket', bucketname)
     
@@ -26,6 +28,12 @@ export class CdkImagesPermitStack extends cdk.Stack {
     })
     
     auth_iamrole.attachInlinePolicy(new iam.Policy(this, 'AuthPolicy', {
+      statements: [
+        s3_policy
+      ]
+    }))
+    
+    unauth_iamrole.attachInlinePolicy(new iam.Policy(this, 'UnauthPolicy', {
       statements: [
         s3_policy
       ]
