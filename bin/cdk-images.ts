@@ -2,20 +2,25 @@
 import 'source-map-support/register';
 import * as cdk from '@aws-cdk/core';
 import { CdkImagesStack } from '../lib/cdk-images-stack';
+import { CdkImagesDistributionStack } from '../lib/cdk-images-distribution-stack';
+import { CdkImagesPermitStack } from '../lib/cdk-images-permit-stack';
+import { CdkImagesStrageStack } from '../lib/cdk-images-storage-stack';
+import { CdkImagesUiDeployStack } from '../lib/cdk-images-ui-deploy-stack';
 
 const app = new cdk.App();
 new CdkImagesStack(app, 'CdkImagesStack', {
-  /* If you don't specify 'env', this stack will be environment-agnostic.
-   * Account/Region-dependent features and context lookups will not work,
-   * but a single synthesized template can be deployed anywhere. */
+  env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION },
+})
+new CdkImagesStrageStack(app, 'CdkImagesStrageStack', {
+  env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION },
+})
+new CdkImagesDistributionStack(app, 'CdkImagesDistributionStack', {
+  env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION },
+})
+new CdkImagesPermitStack(app, 'CdkImagesPermitStack', {
+  env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION },
+})
+new CdkImagesUiDeployStack(app, 'CdkImagesUiDeployStack', {
+  env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION },
+})
 
-  /* Uncomment the next line to specialize this stack for the AWS Account
-   * and Region that are implied by the current CLI configuration. */
-  // env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION },
-
-  /* Uncomment the next line if you know exactly what Account and Region you
-   * want to deploy the stack to. */
-  // env: { account: '123456789012', region: 'us-east-1' },
-
-  /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
-});
